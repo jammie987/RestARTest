@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+
+  broker:
+    image: rabbitmq:3
+    env_file:
+      - env.env
+    ports:
+      - 5672:5672
+
+  app:
+    build: .
+    command: bash -c "python /code/manage.py migrate --noinput && python /code/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    env_file:
+      - env.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - broker
+
+  worker:
+    build: .
+    command: celery -A blur worker -l info
+    volumes:
+      - .:/code
+    env_file:
+      - env.env
+    depends_on:
+      - broker
+
+  flower:
+      image: zoomeranalytics/flower:0.9.1-4.0.2
+      restart: "no"
+      env_file:
+        - env.env
+      ports:
+        - "5555:5555"
+      depends_on:
+        - broker

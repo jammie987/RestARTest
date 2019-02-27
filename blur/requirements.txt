@@ -1,0 +1,14 @@
+amqp==2.4.1
+billiard==3.5.0.5
+celery==4.2.1
+Django==2.1.7
+django-celery-results==1.0.4
+django-rest-framework==0.1.0
+djangorestframework==3.9.1
+kombu==4.3.0
+numpy==1.16.2
+opencv-python==4.0.0.21
+pytz==2018.9
+vine==1.2.0
+redis
+django_celery_monitor
